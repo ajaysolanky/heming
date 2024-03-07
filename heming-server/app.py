@@ -11,7 +11,8 @@ def review_text():
     data = request.json
     passage = data['passage']
     instruction = data['instruction']
-    return jsonify(get_passage_edits(instruction, passage))
+    model = data['model']
+    return jsonify(get_passage_edits(instruction, passage, model))
 
 if __name__ == '__main__':
     app.run(debug=True)

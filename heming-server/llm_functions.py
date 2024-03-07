@@ -1,7 +1,10 @@
 import requests
 import os
+import anthropic
+
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
 
 OPENAI_MODEL = 'gpt-4-turbo-preview'
 
@@ -11,6 +14,7 @@ headers = {
 }
 
 def openai_call(messages):
+    print("CALLING OPENAI")
     data = {
         'model': OPENAI_MODEL,
         'messages': messages,
@@ -29,3 +33,24 @@ def openai_call(messages):
         raise Exception("Failed to fetch response from OpenAI")
 
     return response_data
+
+def claude_call(messages):
+    print("CALLING CLAUDE")
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    
+    # Prepare the messages in the format required by Claude
+
+    try:
+        response = client.messages.create(
+            model="claude-3-opus-20240229",
+            max_tokens=1024 * 4,
+            messages=messages
+        )
+        
+        # Assuming the structure of the response, adjust based on actual response
+        server_response = response.content
+        response_data = {"response": server_response[0].text}
+        
+        return response_data
+    except Exception as e:
+        raise Exception(f"Failed to fetch response from Claude: {str(e)}")

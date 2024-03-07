@@ -1,4 +1,4 @@
-from llm_functions import openai_call
+from llm_functions import openai_call, claude_call
 
 
 REVIEW_PROMPT_TEMPLATE = """
@@ -26,10 +26,14 @@ Make sure that the resulting passage after suggested modifications is properly w
 
 Response:"""
 
-def get_passage_edits(instruction, passage):
+def get_passage_edits(instruction, passage, model):
     llm_prompt = REVIEW_PROMPT_TEMPLATE.format(
         instruction=instruction,
         passage=passage
     )
     messages = [{"role": "user", "content": llm_prompt}]
-    return openai_call(messages)
+    if model == 'openai':
+        return openai_call(messages)
+    elif model == 'claude':
+        return claude_call(messages)
+
