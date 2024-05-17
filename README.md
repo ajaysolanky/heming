@@ -1,0 +1,1 @@
+An AI companion that reviews your writing sample and makes in-line edits -- imagine that you had a professional-quality editor who came through and left Google Docs-style comments on your essays, blogs, emails, etc.
